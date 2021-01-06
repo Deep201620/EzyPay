@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_background"
+    android:isScrollContainer="true"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarSize="6dp"
+    android:scrollbars="vertical"
+    android:verticalScrollbarPosition="right"
+    tools:context=".ViewAllCustomer">
+
+
+    <ListView
+        android:id="@+id/detailsview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="7dp"
+        android:scrollbarSize="4dp"
+        android:scrollbars="vertical"
+        android:transcriptMode="alwaysScroll"
+        tools:listitem="@layout/datarows" />
+
+</LinearLayout>
