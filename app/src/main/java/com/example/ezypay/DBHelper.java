@@ -83,15 +83,32 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         int newbal = oldbal+amount;
         sqLiteDatabase.execSQL("UPDATE "+Customer_schema.customer_coln.TABLE_NAME+ " SET Balance = "+"'"+newbal+"' "+ "WHERE Acc_No = "+"'"+ToAno+"'");
-     return true;
-    }
-
-    public boolean update2(String fromAno,int amount,int oldbal2){
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int newbal2 = oldbal2-amount;
-        sqLiteDatabase.execSQL("UPDATE "+Customer_schema.customer_coln.TABLE_NAME+ " SET Balance = "+"'"+newbal2+"' "+ "WHERE Acc_No = "+"'"+fromAno+"'");
         return true;
     }
 
+    public boolean update2(String fromAno, int amount, int oldbal2) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        int newbal2 = oldbal2 - amount;
+        sqLiteDatabase.execSQL("UPDATE " + Customer_schema.customer_coln.TABLE_NAME + " SET Balance = " + "'" + newbal2 + "' " + "WHERE Acc_No = " + "'" + fromAno + "'");
+        return true;
+    }
+
+    public ArrayList<String> getDetails(String Acno) {
+        ArrayList<String> details = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query(Customer_schema.customer_coln.TABLE_NAME, Result, Customer_schema.customer_coln.COL_Acc_No + "=?", new String[]{String.valueOf(Acno)}, null, null, null);
+        if (cursor.moveToFirst()) {
+            String s1, s2, s3, s4;
+            s1 = cursor.getString(cursor.getColumnIndex("Balance"));
+            s2 = cursor.getString(cursor.getColumnIndex("Acc_No"));
+            s3 = cursor.getString(cursor.getColumnIndex("Customer_name"));
+            s4 = cursor.getString(cursor.getColumnIndex("Email"));
+            details.add("Account No: " + s2);
+            details.add("Account Holder: " + s3);
+            details.add("Account Balance: " + s1);
+            details.add("Email: " + s4);
+        }
+        return details;
+    }
 }
 
