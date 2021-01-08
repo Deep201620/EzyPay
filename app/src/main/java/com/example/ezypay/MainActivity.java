@@ -1,20 +1,14 @@
 package com.example.ezypay;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -42,15 +36,17 @@ public class MainActivity extends AppCompatActivity {
         detailview = findViewById(R.id.alldetails);
         detailview.setVisibility(View.GONE);
 
+        //initializing DBHelper and SQLiteDtabase objects
         db = new DBHelper(this);
         sqldb = db.getWritableDatabase();
 
-        //db.onUpgrade(sqldb,1,1);
-      /*ContentValues contentValues = new ContentValues();
-        contentValues.put(Customer_schema.customer_coln.COL_Acc_No,"201");
-        contentValues.put(Customer_schema.customer_coln.COL_Customer_name,"Philip");
-        contentValues.put(Customer_schema.customer_coln.COL_Balance,"3,00,156");
-        contentValues.put(Customer_schema.customer_coln.COL_Email,"Philip@gmail.com");
+        //Creating Table and Drop if already exists
+        db.onUpgrade(sqldb, 2, 3);
+     /* ContentValues contentValues = new ContentValues();
+        contentValues.put(Customer_schema.customer_coln.COL_Acc_No,"101");
+        contentValues.put(Customer_schema.customer_coln.COL_Customer_name,"john");
+        contentValues.put(Customer_schema.customer_coln.COL_Balance,"15,000");
+        contentValues.put(Customer_schema.customer_coln.COL_Email,"john@gmail.com");
 
         rowid = sqldb.insert(Customer_schema.customer_coln.TABLE_NAME,null,contentValues);
             if(rowid==0){
@@ -60,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             }*/
         // db.update("101","45000");
 
+
+        //Handling Button Click events
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,12 +98,18 @@ public class MainActivity extends AppCompatActivity {
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                t1.getEditText().onEditorAction(EditorInfo.IME_ACTION_DONE);
                 if (t1.getEditText().getText().toString().isEmpty()) {
                     t1.getEditText().setError("Enter Account Number");
                 } else {
                     int Balance = db.getbal(t1.getEditText().getText().toString());
-                    detailview.setVisibility(View.VISIBLE);
-                    detailview.setText("Account Balance: " + Balance);
+                    if (Balance != 0) {
+                        detailview.setVisibility(View.VISIBLE);
+                        detailview.setText("Account Balance: " + Balance);
+                    } else {
+                        detailview.setVisibility(View.VISIBLE);
+                        detailview.setText("Account not existed");
+                    }
                 }
             }
         });

@@ -1,24 +1,24 @@
 package com.example.ezypay;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MoneyTransfer extends AppCompatActivity {
     DBHelper db;
     SQLiteDatabase sqldb;
     EditText tL1,tL2,tL3;
-    TextView t1,t2;
     Button b1,b2;
     String fromacc,toacc,amt,bal;
     String Acno;
@@ -33,7 +33,6 @@ public class MoneyTransfer extends AppCompatActivity {
         tL3 = findViewById(R.id.amt);
         b1 = findViewById(R.id.pay);
         b2 = findViewById(R.id.back);
-
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
@@ -58,11 +57,46 @@ public class MoneyTransfer extends AppCompatActivity {
                         int oldbal2 = db.getbal(fromacc);
                         db.update2(fromacc, Integer.parseInt(amt), oldbal2);
                         Toast.makeText(MoneyTransfer.this, "Transfer Successfull", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(MoneyTransfer.this, ViewAllCustomer.class);
-                        startActivity(i);
+                        inserted();
+
                     }
                 }
             });
         }
+
+        //back button
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    //Inserting int transaction table
+    public void inserted() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Customer_schema.customer_coln.Col_Transaction_Ano1, fromacc);
+        contentValues.put(Customer_schema.customer_coln.Col_Transaction_Ano2, toacc);
+        contentValues.put(Customer_schema.customer_coln.Col_Transaction_amt, amt);
+        contentValues.put(Customer_schema.customer_coln.Col_Transaction_time, getDateTime());
+
+        long id = sqldb.insert(Customer_schema.customer_coln.TABLE2_NAME, null, contentValues);
+        if (id == 0) {
+            System.out.println("Failure, Data not Inserted");
+        } else {
+            System.out.println("Success, Data Inserted Successfully");
+        }
+    }
+
+    //Function to get DateTime
+    private String getDateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                "dd-MM-yyyy HH:mm:ss",
+                Locale.getDefault());
+
+        Date date = new Date();
+        return simpleDateFormat.format(date);
     }
 }
