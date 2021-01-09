@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         sqldb = db.getWritableDatabase();
 
         //Creating Table and Drop if already exists
-        db.onUpgrade(sqldb, 2, 3);
+        // db.onUpgrade(sqldb, 2, 3);
      /* ContentValues contentValues = new ContentValues();
         contentValues.put(Customer_schema.customer_coln.COL_Acc_No,"101");
         contentValues.put(Customer_schema.customer_coln.COL_Customer_name,"john");

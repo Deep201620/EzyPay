@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ViewAllCustomer extends AppCompatActivity {
-    DBHelper db;
+    public static DBHelper db;
     SQLiteDatabase sqLiteDatabase;
     ListView details_list;
     ArrayList<HashMap<String, String>> userList;

@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //this method will create table
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // db.execSQL(CREATE_TABLE);
+        //db.execSQL(CREATE_TABLE);
         db.execSQL(CREATE_TABLE2);
     }
 
